@@ -26,7 +26,7 @@ public class Box<T extends Fruit> {
     public double getQuality() {
         return quality;
     }
-    public boolean compare(Box<Orange> box) {
+    public boolean compare(Box<?> box) {
         if (getWeight() == box.getWeight()) {
             return true;
         }
