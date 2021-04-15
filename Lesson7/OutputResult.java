@@ -1,10 +1,7 @@
 package Lesson7;
 
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -19,15 +16,6 @@ public class OutputResult {
         double maximumCelsius;
         Connection connection = null;
         Statement statement = null;
-        try {
-            Class.forName("org.sqlite.JDBC");
-            connection = DriverManager.getConnection("jdbc:sqlite:geekbrains.db");
-            statement = connection.createStatement();
-            statement.executeQuery("create table if not exists temperatureArchive (id integer primary key autoincrement,town text,data text,temperatureMin text,temperatureMax text);");
-
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
-        }
 
         System.out.println(town);
         System.out.println();
@@ -43,13 +31,20 @@ public class OutputResult {
             System.out.println("Temperature: " + minimumResult + "\u2103 - " + maximumResult + "\u2103");
             System.out.println();
             try {
-                String requestData = "INSERT INTO temperatureArchive ( data,temperatureMin,temperatureMax,town) values ('" + dateFormat.format(data.getTime())
-                        + "', '" + minimumCelsius
-                        + "', '" + maximumCelsius
+                Class.forName("org.sqlite.JDBC");
+            connection = DriverManager.getConnection("jdbc:sqlite:geekbrains.db");
+            statement = connection.createStatement();
+            statement.executeUpdate("create table if not exists temperatureArchive (id integer primary key autoincrement,town text,data text,temperatureMin text,temperatureMax text);");
+
+                String requestData = "insert into temperatureArchive (data,temperatureMin,temperatureMax,town) values ('"
+                        + dateFormat.format(data.getTime())
+                        + "', '" + minimumResult
+                        + "', '" + maximumResult
                         + "', '" + town + "');";
 
+
                 statement.executeUpdate(requestData);
-            } catch (SQLException throwables) {
+            } catch (SQLException | ClassNotFoundException throwables) {
                 throwables.printStackTrace();
             }
         }
@@ -59,6 +54,5 @@ public class OutputResult {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
     }
 }

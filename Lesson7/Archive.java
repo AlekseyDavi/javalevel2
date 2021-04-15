@@ -1,9 +1,6 @@
 package Lesson7;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class Archive {
 
@@ -15,8 +12,15 @@ public class Archive {
             Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection("jdbc:sqlite:geekbrains.db");
             statement = connection.createStatement();
-            String requestData = "select * from temperatureArchive where City = '" + town + "'";
-            statement.executeQuery(requestData);
+            String requestData = "select * from temperatureArchive where town = '" + town + "'";
+            ResultSet resultSet = statement.executeQuery(requestData);
+            while (resultSet.next()) {
+                System.out.print(resultSet.getString("data"));
+                System.out.print(" ");
+                System.out.print(resultSet.getString("temperatureMin"));
+                System.out.print(" ");
+                System.out.println(resultSet.getString("temperatureMax"));
+            }
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         } finally {
