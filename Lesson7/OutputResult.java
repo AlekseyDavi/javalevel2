@@ -1,6 +1,7 @@
 package Lesson7;
 
 
+import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -13,6 +14,8 @@ public class OutputResult {
         ObjectMapper objectMapper = new ObjectMapper();
         double minimumCelsius;
         double maximumCelsius;
+        Connection connection = null;
+        Statement statement = null;
 
         System.out.println(town);
         System.out.println();
@@ -27,9 +30,29 @@ public class OutputResult {
             String maximumResult = String.format("%.1f", maximumCelsius);
             System.out.println("Temperature: " + minimumResult + "\u2103 - " + maximumResult + "\u2103");
             System.out.println();
+            try {
+                Class.forName("org.sqlite.JDBC");
+            connection = DriverManager.getConnection("jdbc:sqlite:geekbrains.db");
+            statement = connection.createStatement();
+            statement.executeUpdate("create table if not exists temperatureArchive (id integer primary key autoincrement,town text,data text,temperatureMin text,temperatureMax text);");
+
+                String requestData = "insert into temperatureArchive (data,temperatureMin,temperatureMax,town) values ('"
+                        + dateFormat.format(data.getTime())
+                        + "', '" + minimumResult
+                        + "', '" + maximumResult
+                        + "', '" + town + "');";
+
+
+                statement.executeUpdate(requestData);
+            } catch (SQLException | ClassNotFoundException throwables) {
+                throwables.printStackTrace();
+            }
         }
-        System.exit(0);
+        try {
+            if (connection != null)
+                connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
-
-
 }
