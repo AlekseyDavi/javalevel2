@@ -8,7 +8,7 @@ public abstract class Fruit {
         this.quality = quality;
     }
 
-    public double getQuality() {
+    public double getQuantity() {
         return quality;
     }
 

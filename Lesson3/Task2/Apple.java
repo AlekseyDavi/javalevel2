@@ -3,8 +3,8 @@ package Lesson3.Task2;
 public class Apple extends Fruit {
     double weightOfOneFruit = 1.0;
 
-    public Apple(double quality) {
-        super(quality);
+    public Apple(double quantity) {
+        super(quantity);
     }
 
     @Override

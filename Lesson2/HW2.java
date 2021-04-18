@@ -5,10 +5,9 @@ public class HW2 {
         Object[][] massive = new Object[4][4];
         try {
             length(massive.length);
-            length(massive[0].length);
-            length(massive[1].length);
-            length(massive[2].length);
-            length(massive[3].length);
+            for (int i = 0; i < massive.length; i++) {
+                length(massive[i].length);
+            }
             int sum = 0;
             for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 4; j++) {

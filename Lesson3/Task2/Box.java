@@ -7,7 +7,7 @@ public class Box<T extends Fruit> {
     private List<T> fruitList;
 
     private double weight;
-    private double quality;
+    private double quantity;
 
     public Box() {
         this.fruitList = new ArrayList<>();
@@ -17,14 +17,14 @@ public class Box<T extends Fruit> {
         fruitList.add(fruit);
 
         weight += fruit.getWeight();
-        quality +=fruit.getQuality();
+        quantity +=fruit.getQuantity();
     }
 
     public double getWeight() {
         return weight;
     }
-    public double getQuality() {
-        return quality;
+    public double getQuantity() {
+        return quantity;
     }
     public boolean compare(Box<?> box) {
         if (getWeight() == box.getWeight()) {
